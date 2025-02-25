@@ -1,0 +1,17 @@
+{
+  "name": "ai-chat-scraper-api",
+  "version": "1.0.0",
+  "description": "A Node.js backend for AI-powered web scraping with session-based chat history.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "valid-url": "^1.0.9"
+  }
+}
