@@ -24,7 +24,8 @@ app.use(
 // Validate input
 const validateInput = (url, prompt) => {
   if (!validUrl.isUri(url)) return "Invalid URL";
-  if (typeof prompt !== "string" || prompt.trim() === "") return "Invalid prompt";
+  if (typeof prompt !== "string" || prompt.trim() === "")
+    return "Invalid prompt";
 
   // Check for harmful script in the prompt
   const harmfulPatterns = [/script/i, /<\s*script/i, /<\/\s*script/i];
@@ -46,7 +47,7 @@ app.post("/chat", async (req, res) => {
   let query = `${prompt}\n\n Here's the URL just in case you missed it: '${url}'`;
 
   // get command needed to address based on prompt
-  const getCommandPrompt = await buildPrompt("get-command", {query});
+  const getCommandPrompt = await buildPrompt("get-command", { query });
   const command = await callAIModel(getCommandPrompt);
   // console.log(JSON.stringify(command, null, 2));
   // fs.writeFileSync('temp/commandResult.json', JSON.stringify(command, null, 2));
@@ -61,7 +62,9 @@ app.post("/chat", async (req, res) => {
     header = req.session.history[req.session.history.length - 1].header;
     const prevUrl = req.session.history[req.session.history.length - 1].url;
     if (prevUrl === url) {
-      query += `\n\nHere's the header from the previous step: [${header.join(", ")}]`;
+      query += `\n\nHere's the header from the previous step: [${header.join(
+        ", "
+      )}]`;
     }
   }
 
@@ -69,38 +72,39 @@ app.post("/chat", async (req, res) => {
   if (commandObj.command === "scrapeTable") {
     try {
       const { url, startPageIdx, endPageIdx, properties } = commandObj.param;
-      const scrapeResult = await scrapeTable(url, startPageIdx, endPageIdx, properties);
+      const scrapeResult = await scrapeTable(
+        url,
+        startPageIdx,
+        endPageIdx,
+        properties
+      );
       data = scrapeResult.data;
       header = scrapeResult.header;
       // fs.writeFileSync('temp/scrape_result.json', JSON.stringify(data, null, 2));
       success = true;
-    }
-    catch {
+    } catch {
       errorMessage = "Error scraping table";
     }
-  }
-  else if (commandObj.command === "filterData") {
+  } else if (commandObj.command === "filterData") {
     try {
       const { key, condition, value } = commandObj.param;
-      let prevData = []
+      let prevData = [];
       if (req.session.history.length > 0) {
         prevData = req.session.history[req.session.history.length - 1].data;
       }
       data = filterData(prevData, key, condition, value);
       success = true;
-    }
-    catch {
+    } catch {
       errorMessage = "Error filtering data";
     }
   }
 
   // wait prepare ai response
   if (!success) {
-    return res.status(500).json({ error: errorMessage
-    });
+    return res.status(500).json({ error: errorMessage });
   }
-  await new Promise(resolve => setTimeout(resolve, 5000)); // sleep 5s before next ai call (due to free tier limitation)
-  const aiResponsePrompt = await buildPrompt("prepare-response", {query});
+  await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep 5s before next ai call (due to free tier limitation)
+  const aiResponsePrompt = await buildPrompt("prepare-response", { query });
   console.log(aiResponsePrompt);
   const aiResponse = await callAIModel(aiResponsePrompt);
 

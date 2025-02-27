@@ -1,21 +1,23 @@
 function filterData(data, key, condition, value) {
-    return data.filter(item => {
-        if (!item.hasOwnProperty(key)) return false;
-        const fieldValue = item[key].toString();
-        
-        switch (condition) {
-        case 'equals':
-            return fieldValue === value;
-        case 'contains':
-            return fieldValue.includes(value);
-        case 'beginsWith':
-            return fieldValue.startsWith(value);
-        case 'endsWith':
-            return fieldValue.endsWith(value);
-        default:
-            throw new Error('Invalid condition. Use "equals", "contains", "beginsWith", or "endsWith".');
-        }
-    });
+  return data.filter((item) => {
+    if (!item.hasOwnProperty(key)) return false;
+    const fieldValue = item[key].toString();
+
+    switch (condition) {
+      case "equals":
+        return fieldValue === value;
+      case "contains":
+        return fieldValue.includes(value);
+      case "beginsWith":
+        return fieldValue.startsWith(value);
+      case "endsWith":
+        return fieldValue.endsWith(value);
+      default:
+        throw new Error(
+          'Invalid condition. Use "equals", "contains", "beginsWith", or "endsWith".'
+        );
+    }
+  });
 }
 
 // // Example usage:
@@ -33,5 +35,5 @@ function filterData(data, key, condition, value) {
 // ];
 
 // console.log(filterData(breeders, "Location", "contains", "BURN")); // Filters locations containing "ND"
-  
+
 module.exports = { filterData };
