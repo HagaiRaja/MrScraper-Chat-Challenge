@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
-const fs = require('fs');
+const fs = require("fs");
+require("dotenv").config();
 
 const { callAIModel } = require("./ai");
 const { parseJsonCodeBlock, buildPrompt } = require("./util");
@@ -16,7 +17,7 @@ async function getTableIdx(header, properties) {
 }
 
 async function scrapeTable(url, startPageIdx = 1, endPageIdx = 1, properties = ["All"]) {
-    const browser = await puppeteer.launch({ headless: false }); // Set to 'true' for headless mode
+    const browser = await puppeteer.launch({ headless:  process.env.IS_HEADLESS === 'true'}); // Set to 'true' for headless mode
     const page = await browser.newPage();
 
     await page.goto(url, { waitUntil: 'domcontentloaded' });
