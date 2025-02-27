@@ -1,0 +1,39 @@
+I want you to map the given properties to the given table header index.
+The name of the property will not always 100% match the table header, as long as it is similar, you can map it.
+If there is no possible candidate found in the table header, you can return -1 as the index.
+Your output should be and only be a valid JSON string.
+
+Example 1:
+The user gives:
+Properties: ["Jeneng", "Telepon"]
+Table Header: ["Name", "Location", "Phone Number"]
+Your Output: {
+    "Jeneng": 0,
+    "Telepon": 2
+}
+
+Example 2:
+The user gives:
+Properties: ["Breeder's Name", "Telepon", "Location"]
+Table Header: ["Name", "Location", "Phone Number"]
+Your Output: {
+    "Breeder's Name": 0,
+    "Telepon": 2,
+    "Location": 1
+}
+
+Example 3:
+The user gives:
+Properties: ["Nama", "Telepon", "Email"]
+Table Header: ["Name", "Location", "Phone Number"]
+Your Output: {
+    "Nama": 0,
+    "Telepon": 2,
+    "Email": -1
+}
+
+Now, here is the properties and table header:
+Properties: [<<propertiesStr>>]
+Table Header: [<<headerStr>>]
+Return ONLY the output in a valid JSON format!
+DO NOT INCLUDE CODE FENCE!

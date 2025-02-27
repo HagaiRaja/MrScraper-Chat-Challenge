@@ -5,6 +5,9 @@ const cheerio = require("cheerio");
 const validUrl = require("valid-url");
 require("dotenv").config();
 
+const { callAIModel } = require("./ai");
+const { scrapeTable } = require("./scraper");
+
 const app = express();
 app.use(express.json());
 app.use(
@@ -30,47 +33,6 @@ const validateInput = (url, prompt) => {
   return null;
 };
 
-// Web Scraping Function (Example with Cheerio)
-const scrapeWebsite = async (url) => {
-  try {
-    const { data } = await axios.get(url);
-    const $ = cheerio.load(data);
-    let breeders = [];
-    $(".breeder-info").each((i, el) => {
-      breeders.push({
-        name: $(el).find(".name").text().trim(),
-        phone: $(el).find(".phone").text().trim(),
-        location: $(el).find(".location").text().trim(),
-      });
-    });
-    return breeders.length > 0 ? breeders : { fullHtml: data };
-  } catch (error) {
-    return { error: "Failed to scrape the website" };
-  }
-};
-
-// AI Model Call
-const callAIModel = async (prompt) => {
-  try {
-    const response = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
-      {
-        model: process.env.OPENROUTER_MODEL_ID,
-        messages: [{ role: "user", content: prompt }],
-      },
-      {
-        headers: {
-          "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    return { error: "AI model request failed" };
-  }
-};
-
 // Chat API
 app.post("/chat", async (req, res) => {
   const { url, prompt } = req.body;
@@ -79,9 +41,19 @@ app.post("/chat", async (req, res) => {
 
   if (!req.session.history) req.session.history = [];
 
-  const scrapedData = await scrapeWebsite(url);
+  const scrapedData = await scrapeTable(url);
   // const aiResponse = await callAIModel(`URL: ${url} HTML: ${JSON.stringify(scrapedData)}\nUser Prompt: ${prompt}`);
-  const aiResponse = await callAIModel(`URL: ${url} HTML: ${scrapedData.fullHtml}\nUser Prompt: ${prompt}`);
+  const aiResponse = await callAIModel(`
+    You are a web scraper. Your task is to return scraping result based on the user prompt on the given URL and its HTML content.
+    You expected to return a JSON in the following format:
+    {
+      "text": "....", // reply text from the AI
+      "results": [...], // scraping results (in array of object),
+    }
+
+    Now, here is the URL, HTML content, and user prompt:
+    URL: ${url}\n HTML: ${scrapedData.fullHtml}\n User Prompt: ${prompt}
+    `);
 
   req.session.history.push({ url, prompt, response: aiResponse });
   res.json({ response: aiResponse, history: req.session.history });
