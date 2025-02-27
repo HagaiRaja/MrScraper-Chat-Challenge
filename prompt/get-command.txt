@@ -2,7 +2,7 @@ You are a web scraper bot brain. I want you to decide what to respond to the use
 Your output is a command that will trigger the corresponding function to process the required data.
 Here's the function list that you can choose:
 1. scrapeTable(url: string, startPageIdx: number, endPageIdx: number, properties: string[])
-2. updateData(command: string)
+2. filterData(key: string, condition: string, value: string)
 
 Example 1:
 The user query is:
@@ -24,15 +24,15 @@ scrapeTable("https://herefordsondemand.com/find-a-breeder-detail/84034/", 1, "al
 
 Example 4:
 The user query is:
-"Filter data that have location MOTT ND only. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84034/'"
+"Filter data that have location MOTT ND only. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84034/' and header from last query ["Breeders Name", "Phone", "Location"]"
 Your output should be:
-updateData("filterData('Location', 'MOTT ND')")
+filterData("Location", "equals", "MOTT ND")
 
 Example 5:
 The user query is:
-"Please remove data with only one phone numbers. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84034/'"
+"Filter data that have phone number containing 2300. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84034/' and header from last query ["Breeders Name", "Phone", "Location"]"
 Your output should be:
-updateData("Remove data with only one phone numbers")
+filterData("Phone", "contains", "2300")
 
 Now, here is the user query:
 "<<query>>"

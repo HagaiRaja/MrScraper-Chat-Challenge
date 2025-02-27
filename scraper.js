@@ -99,13 +99,13 @@ async function scrapeTable(url, startPageIdx = 1, endPageIdx = 1, properties = [
     console.log("Finished scraping.");
 
     // store allData in a JSON file
-    fs.writeFileSync('temp/scraper_result.json', JSON.stringify(allData, null, 2));
+    // fs.writeFileSync('temp/scraper_result.json', JSON.stringify(allData, null, 2));
 
     await browser.close();
-    return allData;
+    return { data: allData, header: tableHeader[0] };
 }
 
 // scrapeTable('https://herefordsondemand.com/find-a-breeder-detail/84015/', startPageIdx = 1, endPageIdx = "all", properties = ["Breeder's Name", "Phone", "Location"]);
-scrapeTable('https://herefordsondemand.com/find-a-breeder-detail/84015/', startPageIdx = 1, endPageIdx = 3, properties = ["Breeder's Name", "Phone"]);
+// scrapeTable('https://herefordsondemand.com/find-a-breeder-detail/84015/', startPageIdx = 1, endPageIdx = 3, properties = ["Breeder's Name", "Phone"]);
 
-// module.exports = { scrapeTable };
+module.exports = { scrapeTable };

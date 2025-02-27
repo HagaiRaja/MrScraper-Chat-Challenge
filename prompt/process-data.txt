@@ -51,5 +51,5 @@ Your Output:
 Now, here is Command and Data that you need to address:
 Command: "<<command>>"
 Data: [<<dataStr>>]
-Return ONLY the output in a valid JSON format!
+Return ONLY the output in a valid array JSON format!
 DO NOT INCLUDE CODE FENCE!
