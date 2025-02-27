@@ -2,27 +2,36 @@ require("dotenv").config();
 const axios = require("axios");
 
 const { parseJsonCodeBlock, buildPrompt } = require("./util");
+const fs = require("fs");
 
 // AI Model Call
 const callAIModel = async (prompt) => {
-  try {
-    const response = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
-      {
-        model: process.env.OPENROUTER_MODEL_ID,
-        messages: [{ role: "user", content: prompt }],
-      },
-      {
-        headers: {
-          "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    return { error: "AI model request failed" };
-  }
+    // store prompt in temp/prompt/<timestamp>.txt
+    const timestamp = Date.now();
+    const promptPath = `temp/prompt/${timestamp}.txt`;
+    // create folder if not exists
+    if (!fs.existsSync("temp/prompt")) {
+        fs.mkdirSync("temp/prompt", { recursive: true });
+    }
+    // fs.writeFileSync(promptPath, prompt);
+    try {
+        const response = await axios.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            {
+            model: process.env.OPENROUTER_MODEL_ID,
+            messages: [{ role: "user", content: prompt }],
+            },
+            {
+            headers: {
+                "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                "Content-Type": "application/json",
+            },
+            }
+        );
+        return response.data;
+     } catch (error) {
+        return { error: "AI model request failed" };
+    }
 };
 
 const testScraperHeaderPrompt = async () => {
@@ -34,7 +43,7 @@ const testScraperHeaderPrompt = async () => {
     const obj = await parseJsonCodeBlock(result.choices[0].message.content)
     console.log(obj);
 }
-testScraperHeaderPrompt();
+// testScraperHeaderPrompt();
 
 const testCommandPromptStep1a = async () => {
     const query = "get all the breeder’s name and location. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84015/'"
