@@ -1,6 +1,7 @@
 I want you to map the given properties to the given table header index.
 The name of the property will not always 100% match the table header, as long as it is similar, you can map it.
 If there is no possible candidate found in the table header, you can return -1 as the index.
+If there is only one properties and it is "All", then return all the table header (see Example 4).
 Your output should be and only be a valid JSON string.
 
 Example 1:
@@ -30,6 +31,16 @@ Your Output: {
     "Nama": 0,
     "Telepon": 2,
     "Email": -1
+}
+
+Example 4:
+The user gives:
+Properties: ["All"]
+Table Header: ["Name", "Location", "Phone Number"]
+Your Output: {
+    "Name": 0,
+    "Location": 1,
+    "Phone Number": 2
 }
 
 Now, here is the properties and table header:

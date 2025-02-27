@@ -15,7 +15,7 @@ async function getTableIdx(header, properties) {
     return tableIdx;
 }
 
-async function scrapeTable(url, startPageIdx = 1, endPageIdx = 1, properties = ["Jeneng", "Location", "Telepon"]) {
+async function scrapeTable(url, startPageIdx = 1, endPageIdx = 1, properties = ["All"]) {
     const browser = await puppeteer.launch({ headless: false }); // Set to 'true' for headless mode
     const page = await browser.newPage();
 

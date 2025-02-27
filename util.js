@@ -2,19 +2,38 @@ const fs = require("fs");
 
 function parseJsonCodeBlock(str) {
     // Extract the JSON string between the code fence markers
-    const jsonMatch = str.match(/```json\s*([\s\S]*?)\s*```/);
+    const jsonMatch1 = str.match(/```json\s*([\s\S]*?)\s*```/);
     
-    if (jsonMatch && jsonMatch[1]) {
+    if (jsonMatch1 && jsonMatch1[1]) {
       // Parse the JSON string into a JavaScript object
       try {
-        return JSON.parse(jsonMatch[1]);
+        return JSON.parse(jsonMatch1[1]);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        return null;
+      }
+    }
+
+
+    const jsonMatch2 = str.match(/```\s*([\s\S]*?)\s*```/);
+    
+    if (jsonMatch2 && jsonMatch2[1]) {
+      // Parse the JSON string into a JavaScript object
+      try {
+        return JSON.parse(jsonMatch2[1]);
       } catch (error) {
         console.error("Error parsing JSON:", error);
         return null;
       }
     }
     
-    return null;
+    // If no code fence markers, try to parse the string directly as JSON
+    try {
+      return JSON.parse(str);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      return null;
+    }
 }
 
 function buildPrompt(templateName, data) {

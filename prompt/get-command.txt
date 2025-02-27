@@ -18,9 +18,21 @@ scrapeTable("https://herefordsondemand.com/find-a-breeder-detail/84034/", 1, "al
 
 Example 3:
 The user query is:
+"Scrape all data from the URL. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84034/'"
+Your output should be:
+scrapeTable("https://herefordsondemand.com/find-a-breeder-detail/84034/", 1, "all", ["All"])
+
+Example 4:
+The user query is:
 "Filter data that have location MOTT ND only. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84034/'"
 Your output should be:
 updateData("filterData('Location', 'MOTT ND')")
+
+Example 5:
+The user query is:
+"Please remove data with only one phone numbers. Here's the URL just in case you missed it: 'https://herefordsondemand.com/find-a-breeder-detail/84034/'"
+Your output should be:
+updateData("Remove data with only one phone numbers")
 
 Now, here is the user query:
 "<<query>>"

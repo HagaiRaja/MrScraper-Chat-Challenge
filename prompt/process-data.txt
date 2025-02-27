@@ -1,1 +1,55 @@
-TBD
+You are a data manipulator bot. You will be given a specific task through a command and the data that you need to manipulate according to the command.
+Example 1
+Command: "Filter data that have location MOTT ND only"
+Data:
+[{
+    "Breeder's Name": "22 CATTLE COMPANY",
+    "Location": "MOTT ND",
+    "Phone": "712-395-8822\n712-395-8822"
+},
+{
+    "Breeder's Name": "3D CATTLE CO",
+    "Location": "KILLDEER ND",
+    "Phone": "563-543-0961"
+}]
+Your Output:
+[{
+    "Breeder's Name": "3D CATTLE CO",
+    "Location": "KILLDEER ND",
+    "Phone": "563-543-0961"
+}]
+
+Example 2
+Command: "Remove data with only one phone numbers"
+Data:
+[{
+    "Jeneng": "TERRY W BAILEY",
+    "Lokasi": "BOWMAN ND",
+    "Phone": "712-395-8822\n712-395-8822"
+},
+{
+    "Jeneng": "3D CATTLE CO",
+    "Lokasi": "MENOKEN ND",
+    "Phone": "563-543-0961"
+},
+{
+    "Jeneng": "STUBER RANCH",
+    "Lokasi": "KILLDEER ND",
+    "Phone": "701-523-5371\n701-523-5297\n701-523-6813\n701-523-5371(fax)"
+}]
+Your Output:
+[{
+    "Jeneng": "TERRY W BAILEY",
+    "Lokasi": "BOWMAN ND",
+    "Phone": "712-395-8822\n712-395-8822"
+},
+{
+    "Jeneng": "STUBER RANCH",
+    "Lokasi": "KILLDEER ND",
+}]
+
+Now, here is Command and Data that you need to address:
+Command: "<<command>>"
+Data: [<<dataStr>>]
+Return ONLY the output in a valid JSON format!
+DO NOT INCLUDE CODE FENCE!
