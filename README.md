@@ -104,12 +104,24 @@ Example 1st chat
 }
 ```
 
-Example 2nd chat
+Example 2nd chat (note: no need to send chat history)
 
 ```json
 {
   "url": "https://herefordsondemand.com/find-a-breeder-detail/84034/",
   "prompt": "Filter data that have location MOTT ND only."
+}
+```
+
+**Example cURL Request**
+
+```cUrl
+curl --location 'http://localhost:3000/chat' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: connect.sid=s%3ATAIBbFoqazJ4uUOQj3Vap-xugx8icXjg.4nnPMsZ%2BOm7lt6oBokiHDei7bl3KL69orX9uIfM2gxs' \
+--data '{
+    "url": "https://herefordsondemand.com/find-a-breeder-detail/84034/",
+    "prompt": "get all the breeder’s name, phone, and location from page 1-3"
 }
 ```
 
