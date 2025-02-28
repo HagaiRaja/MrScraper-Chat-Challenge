@@ -103,10 +103,17 @@ app.post("/chat", async (req, res) => {
   if (!success) {
     return res.status(500).json({ error: errorMessage });
   }
-  await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep 5s before next ai call (due to free tier limitation)
-  const aiResponsePrompt = await buildPrompt("prepare-response", { query });
-  console.log(aiResponsePrompt);
-  const aiResponse = await callAIModel(aiResponsePrompt);
+
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep 5s before next ai call (due to free tier limitation)
+    const aiResponsePrompt = await buildPrompt("prepare-response", { query });
+    console.log(aiResponsePrompt);
+    const aiResponse = await callAIModel(aiResponsePrompt);
+  } catch {
+    return res.status(500).json({
+      error: "Error preparing AI response. Please try again after ~10s.",
+    });
+  }
 
   req.session.history.push({ url, prompt, header, data });
   res.json({ text: aiResponse.choices[0].message.content, results: data });

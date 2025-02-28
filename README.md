@@ -163,6 +163,6 @@ curl --location 'http://localhost:3000/chat' \
 
 ```json
 {
-  "error": "Error scraping table" or "Error filtering data"
+  "error": "Error scraping table" or "Error filtering data" or "Error preparing AI response. Please try again after ~10s."
 }
 ```
