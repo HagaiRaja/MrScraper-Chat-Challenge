@@ -72,7 +72,7 @@ npm install
 **2. Setup .env variable**
 Copy .env.example to .env and replace the OPENROUTER_API_KEY with yours. You can get it from [here](https://openrouter.ai/settings/keys) (need to register). No worry, the model used for this development is FREE (hopefully until now :D)!
 
-TODO: Integrate with Ollama so could be free of API call limit for testing on local.
+TODO: Integrate with Ollama so could be free from API call limit for testing on local.
 
 **3. Run the server!**
 
@@ -104,7 +104,9 @@ Example 1st chat
 }
 ```
 
-Example 2nd chat (note: no need to send chat history)
+Example 2nd chat (no need to send chat history)
+
+_Note: To avoid error due to free API call limit, please wait ~10s before sending the 2nd chat_
 
 ```json
 {
